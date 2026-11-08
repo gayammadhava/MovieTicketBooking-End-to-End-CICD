@@ -22,58 +22,48 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-          cache: maven
-          
 
       - name: Configure Maven Settings
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           mkdir -p ~/.m2
 
           cat > ~/.m2/settings.xml <<EOF
           <settings>
-           <mirrors>
-            <mirror>
-             <id>maven-default-http-blocker</id>
-             <mirrorOf>external:http:*</mirrorOf>
-             <url>http://0.0.0.0/</url>
-             <blocked>false</blocked>
-            </mirror>
-           </mirrors>
-          <servers>
-           <server>
-            <id>nexus</id>
-            <username>\${{ secrets.NEXUS_USERNAME }}</username>
-            <password>\${{ secrets.NEXUS_PASSWORD }}</password>
-           </server>
-           </servers>
+            <servers>
+              <server>
+                <id>nexus</id>
+                <username>${{ secrets.NEXUS_USERNAME }}</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+            </servers>
           </settings>
           EOF
 
       - name: Download WAR from Nexus
         env:
-          NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
+          NEXUS_URL: ${{ secrets.NEXUS_URL }}
         run: |
           mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:get \
             -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
-            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/ \
+            -DremoteRepositories=nexus::default::${NEXUS_URL}/repository/maven-snapshots/ \
             -Dtransitive=false
 
-      - name: Verify Downloaded WAR
-        run: |
-          echo "Checking downloaded WAR..."
-          ls -lh
-          test -f MovieTicketBooking-1.0.0-SNAPSHOT.war
-          echo "WAR downloaded successfully!"
+          mkdir -p target/nexus-download
 
-      - name: Deploy WAR to Tomcat
+          cp ~/.m2/repository/com/movieticket/MovieTicketBooking/1.0.0-SNAPSHOT/MovieTicketBooking-1.0.0-SNAPSHOT.war \
+             target/nexus-download/
+
+      - name: Verify WAR
+        run: |
+          ls -lh target/nexus-download/
+          test -s target/nexus-download/MovieTicketBooking-1.0.0-SNAPSHOT.war
+
+      - name: Deploy to Tomcat
         env:
           TOMCAT_URL: ${{ secrets.TOMCAT_URL }}
           TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
@@ -88,8 +78,6 @@ jobs:
         env:
           TOMCAT_URL: ${{ secrets.TOMCAT_URL }}
         run: |
-          echo "Checking Tomcat deployment..."
-          curl -f "$TOMCAT_URL/MovieTicketBooking/"
-
-      - name: Deployment Successful
-        run: echo "MovieTicketBooking deployed successfully to Tomcat!"
+          sleep 5
+          curl --fail "$TOMCAT_URL/MovieTicketBooking/"
+          echo "Deployment successful!"
