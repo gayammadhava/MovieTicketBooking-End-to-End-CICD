@@ -41,6 +41,15 @@ jobs:
                 <password>${{ secrets.NEXUS_PASSWORD }}</password>
               </server>
             </servers>
+
+          <mirrors>
+              <mirror>
+                <id>maven-default-http-blocker</id>
+                <mirrorOf>external:http:*,!nexus</mirrorOf>
+                <url>http://0.0.0.0/</url>
+                <blocked>true</blocked>
+              </mirror>
+            </mirrors>
           </settings>
           EOF
 
