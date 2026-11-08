@@ -53,23 +53,17 @@ jobs:
         env:
           NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
         run: |
-          echo "Downloading WAR from Nexus..."
-
-          mkdir -p target/nexus-download
-
-          mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy \
+          mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:get \
             -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
-            -DoutputDirectory=target/nexus-download \
-            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/
+            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/ \
+            -Dtransitive=false
 
       - name: Verify Downloaded WAR
         run: |
-          echo "Checking downloaded WAR file..."
-          ls -lh target/nexus-download/
-
-          test -f target/nexus-download/*.war
-
-          echo "WAR file downloaded successfully!"
+          echo "Checking downloaded WAR..."
+          ls -lh
+          test -f MovieTicketBooking-1.0.0-SNAPSHOT.war
+          echo "WAR downloaded successfully!"
 
       - name: Deploy WAR to Tomcat
         env:
