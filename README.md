@@ -7,3 +7,4 @@ CI workflow trigger test
 WAR file validation added
 WAR file validation added
 MovieTicket
+WAR file validation added
