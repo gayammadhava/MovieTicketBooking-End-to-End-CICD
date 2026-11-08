@@ -53,12 +53,14 @@ jobs:
         env:
           NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
         run: |
-          mvn -U -s ~/.m2/settings.xml \
-            org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy \
+          echo "Downloading WAR from Nexus..."
+
+          mkdir -p target/nexus-download
+
+          mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy \
             -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
             -DoutputDirectory=target/nexus-download \
-            -DremoteRepositories=nexus::default::${{ secrets.NEXUS_HOST_URL }}/repository/maven-snapshots/ \
-            -Dtransitive=false
+            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/
 
       - name: Verify Downloaded WAR
         run: |
