@@ -11,3 +11,4 @@ WAR file validation added
 movie
 Movie Ticket
 Movie
+Trigger
