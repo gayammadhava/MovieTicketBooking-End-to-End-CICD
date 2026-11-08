@@ -1,0 +1,279 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #10131c;
+    color: #ffffff;
+}
+
+.navbar {
+    background: #191e2b;
+    padding: 18px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #ff4757;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+}
+
+nav a:hover {
+    color: #ff4757;
+}
+
+.hero {
+    text-align: center;
+    padding: 65px 20px;
+    background: linear-gradient(135deg, #252b40, #451c35);
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #d1d1d1;
+    margin-bottom: 25px;
+}
+
+.search-form {
+    display: flex;
+    max-width: 550px;
+    margin: auto;
+    gap: 10px;
+}
+
+.search-form input {
+    flex: 1;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #444b5d;
+    border-radius: 6px;
+    margin: 7px 0 14px;
+    background: #202637;
+    color: white;
+}
+
+button, .book-btn {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover, .book-btn:hover {
+    background: #e93649;
+}
+
+.container {
+    width: 90%;
+    max-width: 1250px;
+    margin: 45px auto;
+}
+
+.container h2, .container h1 {
+    margin-bottom: 25px;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.movie-card {
+    background: #191e2b;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #30374a;
+}
+
+.movie-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.movie-card img:hover {
+    transform: scale(1.04);
+}
+
+.movie-info {
+    padding: 20px;
+}
+
+.movie-info h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.movie-info p {
+    color: #b7bdcb;
+    margin-bottom: 12px;
+}
+
+.movie-info h4 {
+    color: #ffbd59;
+    margin-bottom: 15px;
+}
+
+.movie-info label {
+    display: block;
+    font-size: 14px;
+    color: #d4d8e2;
+}
+
+.book-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.form-container {
+    width: 90%;
+    max-width: 550px;
+    margin: 55px auto;
+    background: #191e2b;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #30374a;
+}
+
+.form-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.summary {
+    background: #252b3b;
+    padding: 20px;
+    margin: 18px 0;
+    border-radius: 8px;
+}
+
+.summary h3 {
+    margin-bottom: 15px;
+}
+
+.summary p {
+    margin: 12px 0;
+    color: #d4d8e2;
+    overflow-wrap: anywhere;
+}
+
+.summary h2 {
+    color: #ffbd59;
+    margin-top: 15px;
+}
+
+.payment-option {
+    display: block;
+    margin: 18px 0;
+}
+
+.payment-option input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.notice {
+    color: #ffbd59;
+    font-size: 13px;
+    margin: 15px 0;
+}
+
+.success-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #168b58;
+    color: white;
+    font-size: 42px;
+    text-align: center;
+    line-height: 65px;
+}
+
+.confirmation {
+    text-align: center;
+}
+
+.button-link {
+    display: block;
+}
+
+.secondary-link {
+    display: block;
+    color: #ffbd59;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.paid {
+    color: #48d597 !important;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #191e2b;
+    color: #aeb5c5;
+}
+
+@media (max-width: 900px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-form {
+        flex-direction: column;
+    }
+}
