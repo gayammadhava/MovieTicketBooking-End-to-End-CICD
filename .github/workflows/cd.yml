@@ -1,3 +1,4 @@
+
 name: MovieTicketBooking CD Pipeline
 
 on:
@@ -11,7 +12,10 @@ on:
 
 jobs:
   deploy:
-   if: github.event.workflow_run.conclusion == 'success'
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -54,11 +58,8 @@ jobs:
       - name: Verify Downloaded WAR
         run: |
           echo "Checking downloaded WAR file..."
-
           ls -lh target/nexus-download/
-
           test -f target/nexus-download/MovieTicketBooking-1.0.0-SNAPSHOT.war
-
           echo "WAR file downloaded successfully!"
 
       - name: Deploy WAR to Tomcat
@@ -75,11 +76,8 @@ jobs:
       - name: Verify Tomcat Deployment
         env:
           TOMCAT_URL: ${{ secrets.TOMCAT_URL }}
-          TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
-          TOMCAT_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
         run: |
           echo "Checking Tomcat deployment..."
-
           curl -f "$TOMCAT_URL/MovieTicketBooking/"
 
       - name: Deployment Successful
