@@ -46,11 +46,11 @@ jobs:
 
       - name: Download WAR from Nexus
         env:
-          NEXUS_URL: ${{ secrets.NEXUS_URL }}
+          NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
         run: |
           mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:get \
             -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
-            -DremoteRepositories=nexus::default::${NEXUS_URL}/repository/maven-snapshots/ \
+            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/ \
             -Dtransitive=false
 
           mkdir -p target/nexus-download
