@@ -68,7 +68,7 @@ jobs:
         env:
           NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
         run: |
-          mvn deploy:deploy-file \
+          mvn org.apache.maven.plugins:maven-deploy-plugin:3.1.4:deploy-file \
             -DgroupId=com.movieticket \
             -DartifactId=MovieTicketBooking \
             -Dversion=1.0.0-SNAPSHOT \
