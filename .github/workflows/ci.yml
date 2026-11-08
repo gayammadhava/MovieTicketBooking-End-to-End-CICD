@@ -1,3 +1,4 @@
+
 name: MovieTicketBooking CI
 
 on:
@@ -23,24 +24,25 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
-          cache: 'maven'
+          cache: maven
 
       - name: Perform Maven Tests
         run: mvn -B clean test
 
-      - name: Test Sonaqube Quality Gate
+      - name: Test SonarQube Quality Gate
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B test sonar:sonar \
-          -Dsonar.host.url=$SONAR_HOST_URL \
-          -Dsonar.token=$SONAR_TOKEN \
-          -Dsonar.projectKey=MovieTicketBooking \
-          -Dsonar.qualitygate.wait=true
+        run: |
+          mvn -B test sonar:sonar \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.token=$SONAR_TOKEN \
+            -Dsonar.projectKey=MovieTicketBooking \
+            -Dsonar.qualitygate.wait=true
 
-      - name: Generate WAR File 
+      - name: Generate WAR File
         run: mvn -B clean package -DskipTests
 
       - name: Configure Maven Settings
@@ -62,21 +64,18 @@ jobs:
           </settings>
           EOF
 
-        - name: Deploy WAR to Nexus Repository
-          env:
-            NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
-          run: |
-            mvn deploy:deploy-file \
-              -DgroupId=com.movieticket \
-              -DartifactId=MovieTicketBooking \
-              -Dversion=1.0.0-SNAPSHOT \
-              -Dpackaging=war \
-              -Dfile=target/MovieTicketBooking.war \
-              -DrepositoryId=nexus \
-              -Durl="${NEXUS_HOST_URL}/repository/maven-snapshots/"
+      - name: Deploy WAR to Nexus Repository
+        env:
+          NEXUS_HOST_URL: ${{ secrets.NEXUS_HOST_URL }}
+        run: |
+          mvn deploy:deploy-file \
+            -DgroupId=com.movieticket \
+            -DartifactId=MovieTicketBooking \
+            -Dversion=1.0.0-SNAPSHOT \
+            -Dpackaging=war \
+            -Dfile=target/MovieTicketBooking.war \
+            -DrepositoryId=nexus \
+            -Durl="${NEXUS_HOST_URL}/repository/maven-snapshots/"
 
       - name: Artifact is deployed to Nexus Repository
         run: echo "Artifact deployed successfully to Nexus Repository"
-
- 
-    
