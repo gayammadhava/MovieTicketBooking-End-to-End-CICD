@@ -39,13 +39,21 @@ jobs:
 
           cat > ~/.m2/settings.xml <<EOF
           <settings>
-            <servers>
-              <server>
-                <id>nexus</id>
-                <username>${NEXUS_USERNAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
-              </server>
-            </servers>
+           <mirrors>
+            <mirror>
+             <id>maven-default-http-blocker</id>
+             <mirrorOf>external:http:*</mirrorOf>
+             <url>http://0.0.0.0/</url>
+             <blocked>false</blocked>
+            </mirror>
+           </mirrors>
+          <servers>
+           <server>
+            <id>nexus</id>
+            <username>\${{ secrets.NEXUS_USERNAME }}</username>
+            <password>\${{ secrets.NEXUS_PASSWORD }}</password>
+           </server>
+           </servers>
           </settings>
           EOF
 
