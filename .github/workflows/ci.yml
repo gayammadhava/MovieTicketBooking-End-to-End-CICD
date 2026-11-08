@@ -74,8 +74,9 @@ jobs:
             -Dversion=1.0.0-SNAPSHOT \
             -Dpackaging=war \
             -Dfile=target/MovieTicketBooking.war \
+            -DgeneratePom=true \
             -DrepositoryId=nexus \
-            -Durl="${NEXUS_HOST_URL}/repository/maven-snapshots/"
+            -Durl=${NEXUS_URL}/repository/maven-snapshots/
 
       - name: Artifact is deployed to Nexus Repository
         run: echo "Artifact deployed successfully to Nexus Repository"
