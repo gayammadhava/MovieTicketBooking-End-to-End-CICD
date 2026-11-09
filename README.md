@@ -130,16 +130,16 @@ Instead of rebuilding the application, it downloads the existing WAR artifact fr
 ### CD Download Command
 
 ```bash
-mvn -U org.apache.maven.plugins:maven-dependency-plugin:3.8.1:get \
-  -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
-  -DremoteRepositories="nexus::default::${NEXUS_URL}/repository/maven-snapshots/" \
-  -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.8.1:get \
+            -Dartifact=com.movieticket:MovieTicketBooking:1.0.0-SNAPSHOT:war \
+            -DremoteRepositories=nexus::default::${NEXUS_HOST_URL}/repository/maven-snapshots/ \
+            -Dtransitive=false
 ```
 
 ### WAR Verification
 
 ```bash
-test -s target/nexus-download/MovieTicketBooking.war
+test -s target/nexus-download/MovieTicketBooking-1.0.0-SNAPSHOT.war
 ```
 
 ### Tomcat Deployment
